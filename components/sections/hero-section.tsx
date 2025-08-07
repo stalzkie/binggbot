@@ -113,7 +113,7 @@ export function HeroSection() {
           <MotionContainer direction="up" delay={0.3}>
             <motion.div className="mb-8 relative">
               <motion.h2 
-                className="text-8xl md:text-9xl lg:text-[12rem] font-black leading-none tracking-tighter"
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-black leading-none tracking-tighter"
                 initial={{ opacity: 0, y: 100 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
