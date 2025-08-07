@@ -7,7 +7,11 @@ import { ProcessStep } from "@/components/ui/process-step";
 import { MotionContainer } from "@/components/animations/motion-container";
 import { AnimatedBackground } from "@/components/animations/animated-background";
 import { HeroSection } from "@/components/sections/hero-section";
+import { Header } from "@/components/sections/header";
 import { Reviews } from "@/components/sections/reviews";
+import { Pricing } from "@/components/sections/pricing";
+import { HowItWorks } from "@/components/sections/how-it-works";
+import { Footer } from "@/components/sections/footer";
 import { ContactModal } from "@/components/ui/contact-modal";
 import { Spotlight } from "@/components/ui/spotlight";
 import { 
@@ -96,12 +100,14 @@ export default function Home() {
       />
       <AnimatedBackground />
 
-      <div id="home">
-        <HeroSection />
-      </div>
+      <Header />
 
-      <section id="process" className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section id="home" className="min-h-screen w-full">
+        <HeroSection />
+      </section>
+
+      <section id="process" className="min-h-screen w-full py-16 px-4 sm:px-6 lg:px-8 flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
           <MotionContainer className="text-center mb-12">
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
               Our Process
@@ -123,10 +129,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section id="pricing" className="min-h-screen w-full flex items-center">
+        <div className="w-full">
+          <Pricing onContactClick={() => setIsContactModalOpen(true)} />
+        </div>
+      </section>
+
+      <section id="how-it-works" className="min-h-screen w-full flex items-center">
+        <div className="w-full">
+          <HowItWorks />
+        </div>
+      </section>
+
+      <section id="why-choose" className="min-h-screen w-full py-16 px-4 sm:px-6 lg:px-8 flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
           <MotionContainer className="text-center mb-12">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-tight">
               Why Choose BinggBot
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -157,12 +175,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Reviews Section */}
-      <Reviews />
+      <section id="reviews" className="min-h-screen w-full flex items-center">
+        <div className="w-full">
+          <Reviews />
+        </div>
+      </section>
 
-      {/* CTA Section */}
-      <section id="contact" className="py-16 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-5xl mx-auto">
+      <section id="contact" className="min-h-screen w-full py-16 px-4 sm:px-6 lg:px-8 relative flex items-center">
+        <div className="max-w-5xl mx-auto w-full">
           <div 
             className="cursor-pointer transition-all duration-300 hover:scale-[1.02]"
             onClick={() => setIsContactModalOpen(true)}
@@ -209,7 +229,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Modal */}
+      <Footer />
+
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 

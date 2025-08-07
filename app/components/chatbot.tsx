@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
@@ -35,7 +36,16 @@ export default function ChatBot() {
       {isOpen ? (
         <div className="w-80 h-96 bg-white shadow-lg rounded-lg flex flex-col border border-gray-300">
           <div className="flex justify-between items-center px-3 py-2 bg-gray-100 border-b">
-            <p className="font-semibold text-black">Binggbot</p>
+            <div className="flex items-center space-x-2">
+              <Image
+                src="/alternative-logo.png"
+                alt="BinggBot Logo"
+                width={24}
+                height={24}
+                className="w-6 h-6 object-contain"
+              />
+              <p className="font-semibold text-black">BinggBot</p>
+            </div>
             <button onClick={toggleChat} className="text-black">✖</button>
           </div>
           <div className="flex-1 overflow-y-auto p-3 text-sm">
@@ -57,9 +67,15 @@ export default function ChatBot() {
       ) : (
         <button
           onClick={toggleChat}
-          className="w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center"
+          className="w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center p-2"
         >
-          💬
+          <Image
+            src="/alternative-logo.png"
+            alt="BinggBot"
+            width={32}
+            height={32}
+            className="w-8 h-8 object-contain filter brightness-110"
+          />
         </button>
       )}
     </div>

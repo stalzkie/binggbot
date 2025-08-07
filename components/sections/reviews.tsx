@@ -5,19 +5,11 @@ import { Star } from "lucide-react";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { MotionContainer } from "@/components/animations/motion-container";
 
-interface Review {
-  quote: string;
-  name: string;
-  title: string;
-  image?: string;
-}
-
 interface ReviewsProps {
-  reviews?: Review[];
   className?: string;
 }
 
-const defaultReviews: Review[] = [
+const testimonials = [
   {
     quote: "BinggBot transformed our customer service. The chatbot handles 80% of our inquiries automatically, and our response time improved dramatically. The team was professional and delivered exactly what we needed.",
     name: "Sarah Johnson",
@@ -48,9 +40,19 @@ const defaultReviews: Review[] = [
     name: "James Wilson",
     title: "Product Manager at Education Tech",
   },
+  {
+    quote: "BinggBot's AI solution helped us reduce support costs by 45% while improving customer satisfaction. The implementation was smooth and the results were immediate.",
+    name: "Maria Garcia",
+    title: "Operations Director at ServicePro",
+  },
+  {
+    quote: "The multilingual chatbot they developed for our global platform is exceptional. It handles customer queries in 12 languages with incredible accuracy.",
+    name: "Alex Kumar",
+    title: "VP of Technology at GlobalTech",
+  },
 ];
 
-export function Reviews({ reviews = defaultReviews, className }: ReviewsProps) {
+export function Reviews({ className }: ReviewsProps) {
   return (
     <section className={`py-20 px-4 sm:px-6 lg:px-8 ${className}`}>
       <div className="max-w-7xl mx-auto">
@@ -72,7 +74,6 @@ export function Reviews({ reviews = defaultReviews, className }: ReviewsProps) {
             Real testimonials from businesses that have transformed their customer experience with our custom chatbot solutions.
           </motion.p>
           
-          {/* Star Rating Display */}
           <motion.div
             className="flex items-center justify-center mt-8 space-x-2"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -93,37 +94,35 @@ export function Reviews({ reviews = defaultReviews, className }: ReviewsProps) {
           </motion.div>
         </MotionContainer>
 
-        {/* Infinite Moving Cards */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
+          className="mb-8"
         >
           <InfiniteMovingCards
-            items={reviews}
+            items={testimonials.slice(0, 4)}
             direction="right"
             speed="slow"
             pauseOnHover={true}
-            className="py-8"
+            className="mb-4"
           />
         </motion.div>
 
-        {/* Second row moving in opposite direction */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
+          className="mb-12"
         >
           <InfiniteMovingCards
-            items={reviews.slice().reverse()}
+            items={testimonials.slice(4, 8)}
             direction="left"
             speed="slow"
             pauseOnHover={true}
-            className="py-4"
           />
         </motion.div>
 
-        {/* Statistics Section */}
         <MotionContainer className="mt-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[

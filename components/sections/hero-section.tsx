@@ -7,7 +7,7 @@ import { CheckCircle, Sparkles, Zap } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="relative pt-16 pb-16 px-4 sm:px-6 lg:px-8 flex items-center">
+    <section className="relative min-h-screen w-full px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="max-w-7xl mx-auto w-full">
         <div className="text-center relative">
           <motion.div
@@ -60,8 +60,8 @@ export function HeroSection() {
                   transition={{ duration: 0.3 }}
                 >
                   <Image
-                    src="/logo.png"
-                    alt="BingBot Logo"
+                    src="/alternative-logo.png"
+                    alt="BinggBot Logo"
                     width={48}
                     height={48}
                     className="rounded-lg filter brightness-110"
@@ -113,7 +113,7 @@ export function HeroSection() {
           <MotionContainer direction="up" delay={0.3}>
             <motion.div className="mb-8 relative">
               <motion.h2 
-                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-black leading-none tracking-tighter"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none tracking-tighter"
                 initial={{ opacity: 0, y: 100 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}

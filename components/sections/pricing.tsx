@@ -1,0 +1,239 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Check, Star, Zap, Crown } from "lucide-react";
+import { GlassCard } from "@/components/ui/glass-card";
+import { MotionContainer } from "@/components/animations/motion-container";
+import { Button } from "@/components/ui/button";
+
+interface PricingTier {
+  name: string;
+  price: string;
+  period: string;
+  description: string;
+  features: string[];
+  highlighted?: boolean;
+  icon: React.ElementType;
+  buttonText: string;
+  badge?: string;
+}
+
+const pricingTiers: PricingTier[] = [
+  {
+    name: "Starter",
+    price: "$2,999",
+    period: "one-time",
+    description: "Perfect for small businesses starting their AI journey",
+    icon: Star,
+    buttonText: "Get Started",
+    features: [
+      "Basic chatbot with 5 conversation flows",
+      "Email support integration",
+      "Basic analytics dashboard",
+      "Up to 1,000 monthly conversations",
+      "Standard response time (2-3 seconds)",
+      "Basic customization options",
+      "30-day support period",
+    ],
+  },
+  {
+    name: "Professional",
+    price: "$7,999",
+    period: "one-time",
+    description: "Advanced features for growing businesses",
+    icon: Zap,
+    buttonText: "Most Popular",
+    highlighted: true,
+    badge: "Most Popular",
+    features: [
+      "Advanced chatbot with unlimited flows",
+      "Multi-platform integration (Web, WhatsApp, Slack)",
+      "Advanced analytics & reporting",
+      "Up to 10,000 monthly conversations",
+      "Fast response time (under 1 second)",
+      "Custom UI/UX design",
+      "CRM & database integration",
+      "90-day support & maintenance",
+      "A/B testing capabilities",
+    ],
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    period: "pricing",
+    description: "Tailored solutions for large organizations",
+    icon: Crown,
+    buttonText: "Contact Sales",
+    features: [
+      "Fully custom chatbot solution",
+      "Enterprise-grade security & compliance",
+      "Unlimited conversations",
+      "Sub-second response time",
+      "Advanced AI & NLP capabilities",
+      "Custom integrations & APIs",
+      "Dedicated account manager",
+      "24/7 priority support",
+      "Custom training & onboarding",
+      "SLA guarantees",
+    ],
+  },
+];
+
+interface PricingCardProps {
+  tier: PricingTier;
+  index: number;
+  onContactClick: () => void;
+}
+
+function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
+  const IconComponent = tier.icon;
+
+  return (
+    <MotionContainer direction="up" delay={index * 0.2}>
+      <GlassCard 
+        className={`relative p-8 h-full ${
+          tier.highlighted 
+            ? "border-primary/50 bg-gradient-to-b from-primary/10 to-accent/5" 
+            : "border-border/30"
+        } hover:border-primary/40 transition-all duration-300 group`}
+      >
+        {tier.badge && (
+          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <span className="bg-gradient-to-r from-primary to-accent text-white px-4 py-1 rounded-full text-sm font-semibold">
+              {tier.badge}
+            </span>
+          </div>
+        )}
+
+        <div className="text-center mb-6">
+          <motion.div
+            className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+              tier.highlighted 
+                ? "bg-gradient-to-r from-primary/20 to-accent/20" 
+                : "bg-muted/20"
+            }`}
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <IconComponent className={`h-8 w-8 ${
+              tier.highlighted ? "text-primary" : "text-muted-foreground"
+            }`} />
+          </motion.div>
+
+          <h3 className="text-2xl font-bold text-foreground mb-2">{tier.name}</h3>
+          <p className="text-muted-foreground text-sm mb-4">{tier.description}</p>
+          
+          <div className="mb-6">
+            <div className="flex items-baseline justify-center">
+              <span className="text-4xl font-bold text-foreground">{tier.price}</span>
+              {tier.period !== "pricing" && (
+                <span className="text-muted-foreground ml-2">/{tier.period}</span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <ul className="space-y-3 mb-8 flex-grow">
+          {tier.features.map((feature, featureIndex) => (
+            <motion.li
+              key={featureIndex}
+              className="flex items-start space-x-3"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 + featureIndex * 0.05 }}
+            >
+              <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+              <span className="text-foreground/80 text-sm">{feature}</span>
+            </motion.li>
+          ))}
+        </ul>
+
+        <Button
+          onClick={onContactClick}
+          className={`w-full py-3 ${
+            tier.highlighted
+              ? "bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+              : "bg-muted hover:bg-muted/80"
+          } text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105`}
+        >
+          {tier.buttonText}
+        </Button>
+      </GlassCard>
+    </MotionContainer>
+  );
+}
+
+interface PricingProps {
+  onContactClick: () => void;
+  className?: string;
+}
+
+export function Pricing({ onContactClick, className }: PricingProps) {
+  return (
+    <section id="pricing" className={`py-20 px-4 sm:px-6 lg:px-8 ${className}`}>
+      <div className="max-w-7xl mx-auto">
+        <MotionContainer className="text-center mb-16">
+          <motion.h2 
+            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Simple, Transparent Pricing
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-muted-foreground max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            Choose the perfect plan for your business. All plans include our core AI technology and dedicated support.
+          </motion.p>
+        </MotionContainer>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
+          {pricingTiers.map((tier, index) => (
+            <PricingCard
+              key={tier.name}
+              tier={tier}
+              index={index}
+              onContactClick={onContactClick}
+            />
+          ))}
+        </div>
+
+        {/* Additional Info */}
+        <MotionContainer className="text-center mt-16">
+          <motion.div
+            className="glass-card p-8 rounded-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              All Plans Include
+            </h3>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              {[
+                { icon: "🛡️", title: "Security & Compliance", desc: "Enterprise-grade security" },
+                { icon: "🚀", title: "Fast Deployment", desc: "2-4 weeks delivery" },
+                { icon: "📞", title: "Ongoing Support", desc: "Dedicated support team" },
+              ].map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 + index * 0.1 }}
+                >
+                  <div className="text-3xl mb-2">{item.icon}</div>
+                  <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
+                  <p className="text-muted-foreground text-sm">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </MotionContainer>
+      </div>
+    </section>
+  );
+}
