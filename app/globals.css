@@ -39,6 +39,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Custom animations */
 @keyframes fadeInUp {
   from {
@@ -70,8 +80,11 @@ html {
 }
 
 @keyframes scroll {
-  to {
-    transform: translate(calc(-50% - 0.5rem));
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(calc(-50% - 0.5rem), 0, 0);
   }
 }
 
@@ -90,6 +103,8 @@ html {
 .animate-scroll {
   animation: scroll var(--animation-duration, 40s) linear infinite;
   animation-direction: var(--animation-direction, forwards);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 @theme inline {

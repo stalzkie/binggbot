@@ -3,6 +3,13 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
+import type { MotionValue } from "framer-motion";
+
+interface WordProps {
+  children: React.ReactNode;
+  progress: MotionValue<number>;
+  range: [number, number];
+}
 
 export const TextRevealByWord = ({
   text,
@@ -45,12 +52,6 @@ export const TextRevealByWord = ({
     </div>
   );
 };
-
-interface WordProps {
-  children: React.ReactNode;
-  progress: any;
-  range: [number, number];
-}
 
 const Word = ({ children, progress, range }: WordProps) => {
   const opacity = useTransform(progress, range, [0, 1]);
