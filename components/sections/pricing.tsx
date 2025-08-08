@@ -16,29 +16,32 @@ interface PricingTier {
   icon: React.ElementType;
   buttonText: string;
   badge?: string;
+  subscriptionPrice?: string;
 }
 
 const pricingTiers: PricingTier[] = [
   {
     name: "Starter",
-    price: "$2,999",
+    price: "₱ 3,000",
     period: "one-time",
+    subscriptionPrice: "+ ₱ 1,500/month maintenance subscription",
     description: "Perfect for small businesses starting their AI journey",
     icon: Star,
     buttonText: "Get Started",
     features: [
-      "Basic chatbot with 5 conversation flows",
+      "Basic chatbot",
       "Email support integration",
       "Basic analytics dashboard",
       "Up to 1,000 monthly conversations",
       "Standard response time (2-3 seconds)",
-      "Basic customization options",
-      "30-day support period",
+      "Uploadable & downloadable knowledge base",
+      "Monthly support period",
     ],
   },
   {
     name: "Professional",
-    price: "$7,999",
+    price: "₱ 5,000",
+    subscriptionPrice: "+ ₱ 1,500/month maintenance subscription",
     period: "one-time",
     description: "Advanced features for growing businesses",
     icon: Zap,
@@ -46,15 +49,14 @@ const pricingTiers: PricingTier[] = [
     highlighted: true,
     badge: "Most Popular",
     features: [
-      "Advanced chatbot with unlimited flows",
-      "Multi-platform integration (Web, WhatsApp, Slack)",
-      "Advanced analytics & reporting",
+      "**Custom Website Landing Page**",
+      "Advanced chatbot",
+      "Email support integration",
+      "Advanced analytics & reporting dashboard",
       "Up to 10,000 monthly conversations",
       "Fast response time (under 1 second)",
-      "Custom UI/UX design",
-      "CRM & database integration",
-      "90-day support & maintenance",
-      "A/B testing capabilities",
+      "Uploadable & downloadable knowledge base",
+      "Monthly support & maintenance",
     ],
   },
   {
@@ -130,6 +132,11 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
                 <span className="text-muted-foreground ml-2">/{tier.period}</span>
               )}
             </div>
+              {tier.subscriptionPrice && (
+                <div className="text-sm text-muted-foreground mt-2">
+                  {tier.subscriptionPrice}
+                </div>
+              )}
           </div>
         </div>
 
@@ -143,7 +150,15 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
               transition={{ delay: index * 0.1 + featureIndex * 0.05 }}
             >
               <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-              <span className="text-foreground/80 text-sm">{feature}</span>
+              <span
+                className={`text-sm ${
+                  feature.startsWith("**") && feature.endsWith("**")
+                    ? "font-bold text-accent"
+                    : "text-foreground/80"
+                }`}
+              >
+                {feature.replace(/\*\*/g, "")}
+              </span>
             </motion.li>
           ))}
         </ul>
