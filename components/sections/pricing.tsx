@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Star, Zap, Crown } from "lucide-react";
+import { Check, Star, Zap, Crown, Rocket, ShieldCheck, Headphones } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { MotionContainer } from "@/components/animations/motion-container";
 import { Button } from "@/components/ui/button";
@@ -90,10 +90,10 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
 
   return (
     <MotionContainer direction="up" delay={index * 0.2}>
-      <GlassCard 
+      <GlassCard
         className={`relative p-8 h-full ${
-          tier.highlighted 
-            ? "border-primary/50 bg-gradient-to-b from-primary/10 to-accent/5" 
+          tier.highlighted
+            ? "border-primary/50 bg-gradient-to-b from-primary/10 to-accent/5"
             : "border-border/30"
         } hover:border-primary/40 transition-all duration-300 group`}
       >
@@ -106,23 +106,20 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
         )}
 
         <div className="text-center mb-6">
+          {/* Icon inherits color from wrapper; centered */}
           <motion.div
             className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
-              tier.highlighted 
-                ? "bg-gradient-to-r from-primary/20 to-accent/20" 
-                : "bg-muted/20"
+              tier.highlighted ? "text-primary bg-gradient-to-r from-primary/20 to-accent/20" : "text-foreground bg-muted/20"
             }`}
             whileHover={{ scale: 1.1, rotate: 5 }}
             transition={{ duration: 0.3 }}
           >
-            <IconComponent className={`h-8 w-8 ${
-              tier.highlighted ? "text-primary" : "text-muted-foreground"
-            }`} />
+            <IconComponent className="h-8 w-8 text-inherit" aria-hidden="true" />
           </motion.div>
 
           <h3 className="text-2xl font-bold text-foreground mb-2">{tier.name}</h3>
           <p className="text-muted-foreground text-sm mb-4">{tier.description}</p>
-          
+
           <div className="mb-6">
             <div className="flex items-baseline justify-center">
               <span className="text-4xl font-bold text-foreground">{tier.price}</span>
@@ -130,11 +127,9 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
                 <span className="text-muted-foreground ml-2">/{tier.period}</span>
               )}
             </div>
-              {tier.subscriptionPrice && (
-                <div className="text-sm text-muted-foreground mt-2">
-                  {tier.subscriptionPrice}
-                </div>
-              )}
+            {tier.subscriptionPrice && (
+              <div className="text-sm text-muted-foreground mt-2">{tier.subscriptionPrice}</div>
+            )}
           </div>
         </div>
 
@@ -147,7 +142,8 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 + featureIndex * 0.05 }}
             >
-              <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+              {/* Check icon matches primary color; aligned with text */}
+              <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
               <span
                 className={`text-sm ${
                   feature.startsWith("**") && feature.endsWith("**")
@@ -186,7 +182,7 @@ export function Pricing({ onContactClick, className }: PricingProps) {
     <section id="pricing" className={`py-20 px-4 sm:px-6 lg:px-8 ${className}`}>
       <div className="max-w-7xl mx-auto">
         <MotionContainer className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-tight"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -194,7 +190,7 @@ export function Pricing({ onContactClick, className }: PricingProps) {
           >
             Simple, Transparent Pricing
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-xl text-muted-foreground max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -206,12 +202,7 @@ export function Pricing({ onContactClick, className }: PricingProps) {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
           {pricingTiers.map((tier, index) => (
-            <PricingCard
-              key={tier.name}
-              tier={tier}
-              index={index}
-              onContactClick={onContactClick}
-            />
+            <PricingCard key={tier.name} tier={tier} index={index} onContactClick={onContactClick} />
           ))}
         </div>
 
@@ -223,26 +214,29 @@ export function Pricing({ onContactClick, className }: PricingProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <h3 className="text-2xl font-bold text-foreground mb-4">
-              All Plans Include
-            </h3>
+            <h3 className="text-2xl font-bold text-foreground mb-4">All Plans Include</h3>
             <div className="grid md:grid-cols-3 gap-6 text-center">
               {[
-                { icon: "🛡️", title: "Security & Compliance", desc: "Enterprise-grade security" },
-                { icon: "🚀", title: "Fast Deployment", desc: "2-4 weeks delivery" },
-                { icon: "📞", title: "Ongoing Support", desc: "Dedicated support team" },
-              ].map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1 }}
-                >
-                  <div className="text-3xl mb-2">{item.icon}</div>
-                  <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
-                  <p className="text-muted-foreground text-sm">{item.desc}</p>
-                </motion.div>
-              ))}
+                { icon: ShieldCheck, title: "Security & Compliance", desc: "Enterprise-grade security" },
+                { icon: Rocket, title: "Fast Deployment", desc: "1–2 weeks delivery" },
+                { icon: Headphones, title: "Ongoing Support", desc: "Dedicated support team" },
+              ].map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 + index * 0.1 }}
+                    className="text-foreground"
+                  >
+                    {/* Icon centered and same color as text */}
+                    <Icon className="w-8 h-8 text-inherit mx-auto mb-2" aria-hidden="true" />
+                    <h4 className="font-semibold mb-1">{item.title}</h4>
+                    <p className="text-muted-foreground text-sm">{item.desc}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </MotionContainer>
