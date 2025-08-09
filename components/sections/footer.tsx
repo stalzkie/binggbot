@@ -124,8 +124,7 @@ export function Footer() {
                     Transforming businesses with intelligent AI chatbots.
                   </p>
                   <p className="text-base leading-relaxed text-muted-foreground/80">
-                    Automate customer support, boost engagement, and scale your operations
-                    effortlessly with our cutting-edge conversational AI solutions.
+                    Automate support, increase engagement, and grow your business with our advanced conversational AI.
                   </p>
 
                   <div className="flex flex-wrap justify-center gap-4 mt-6">

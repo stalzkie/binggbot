@@ -37,25 +37,25 @@ export default function Home() {
       step: "01",
       icon: Lightbulb,
       title: "Discovery",
-      description: "We analyze your business needs, customer journey, and technical requirements."
+      description: "We review your business, customer experience, and technical needs."
     },
     {
       step: "02",
       icon: Palette,
       title: "Design",
-      description: "Create conversation flows, UI mockups, and define the chatbot's personality."
+      description: "Design conversation paths, UI samples, and set the chatbot’s personality."
     },
     {
       step: "03",
       icon: Code,
       title: "Development",
-      description: "Build and train your custom chatbot with advanced AI and integration capabilities."
+      description: "Develop and train your custom chatbot with smart AI and prepare your dashboard"
     },
     {
       step: "04",
       icon: Rocket,
-      title: "Launch",
-      description: "Deploy, test, and optimize your chatbot for maximum performance and user satisfaction."
+      title: "Deploy",
+      description: "Launch, test, and improve your chatbot for top performance and user satisfaction."
     }
   ];
 
@@ -63,17 +63,17 @@ export default function Home() {
     {
       icon: Award,
       title: "Industry Expertise",
-      description: "5+ years building chatbots across different industries with proven results."
+      description: "Backed by 3+ years of hands-on AI and web development projects"
     },
     {
       icon: Zap,
       title: "Fast Delivery",
-      description: "From concept to deployment in 2-4 weeks, depending on complexity."
+      description: "From idea to launch in 1–2 weeks, depending on complexity."
     },
     {
       icon: Shield,
-      title: "Enterprise Security",
-      description: "Bank-level security, GDPR compliance, and data protection built-in."
+      title: "High-Level Security",
+      description: "Protecting your data with trusted, advanced measures."
     },
     {
       icon: Users,
@@ -148,7 +148,7 @@ export default function Home() {
               Why Choose BinggBot
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              We combine technical expertise with creative design to deliver chatbot solutions that truly work for your business.
+              We blend technical skill and creative design to deliver chatbot solutions that work for your business.
             </p>
           </MotionContainer>
           

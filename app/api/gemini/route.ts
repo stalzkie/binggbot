@@ -22,7 +22,8 @@ export async function POST(req: Request) {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' })
 
     const prompt = `
-Use only the following knowledge base to answer the user question:
+Use only the following knowledge base to answer the user question. However, you can answer questions that are not in the knowledge base, but you must be concise and clear and it must
+be related to customer service, sales, or marketing, chatbot, AI, technology, or businesses with relevance of chatbots:
 
 ${context}
 

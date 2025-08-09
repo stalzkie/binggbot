@@ -113,7 +113,7 @@ function ChatbotWindow({
               >
                 <IconSparkles className="w-12 h-12 text-primary/50 mb-4" />
                 <div className="text-foreground font-semibold mb-2">
-                  Hello there! 👋
+                  Hello there!
                 </div>
                 <div className="text-muted-foreground text-sm">
                   I&apos;m BinggBot. How can I help you today?

@@ -26,80 +26,80 @@ interface WorkflowStep {
 const workflowSteps: WorkflowStep[] = [
   {
     id: 1,
-    title: "Consultation & Planning",
-    description: "We analyze your business needs and design the perfect chatbot strategy",
+    title: "Kickoff & Plan",
+    description: "We learn your goals and map the chatbot.",
     icon: MessageSquare,
     color: "from-blue-500 to-cyan-500",
     details: [
-      "Business requirements analysis",
-      "Target audience identification",
-      "Use case mapping",
-      "Technology stack selection"
+      "Quick needs check",
+      "Key questions to handle",
+      "Channels to use (web/chat)",
+      "Timeline & handoff"
     ]
   },
   {
     id: 2,
-    title: "AI Training & Development",
-    description: "Our experts train the AI with your specific data and business logic",
+    title: "Chatbot Build",
+    description: "We build your custom chatbot using your content.",
     icon: Brain,
     color: "from-purple-500 to-pink-500",
     details: [
-      "Custom AI model training",
-      "Natural language processing setup",
-      "Intent recognition development",
-      "Response optimization"
+      "Knowledge base setup",
+      "Intents & replies",
+      "Tone & branding",
+      "Safety guardrails"
     ]
   },
   {
     id: 3,
-    title: "Integration & Configuration",
-    description: "Seamless integration with your existing systems and platforms",
+    title: "Landing Page",
+    description: "We create a clean, responsive page for your bot.",
     icon: Cog,
     color: "from-orange-500 to-red-500",
     details: [
-      "API integrations",
-      "Database connections",
-      "CRM synchronization",
-      "Security implementation"
+      "Modern layout",
+      "Clear CTA",
+      "Embed chatbot",
+      "Basic SEO"
     ]
   },
   {
     id: 4,
-    title: "Testing & Deployment",
-    description: "Rigorous testing followed by smooth deployment to production",
+    title: "Dashboard Setup",
+    description: "We set up your admin dashboard.",
     icon: Rocket,
     color: "from-green-500 to-emerald-500",
     details: [
-      "Comprehensive testing",
-      "Performance optimization",
-      "Security validation",
-      "Go-live deployment"
+      "Analytics view",
+      "Upload/download knowledge",
+      "Products: add/edit/delete",
+      "Statuses & categories"
     ]
   },
   {
     id: 5,
-    title: "Training & Handover",
-    description: "We train your team and provide comprehensive documentation",
+    title: "Test & Launch",
+    description: "We test, fix issues, and go live.",
     icon: Users,
     color: "from-indigo-500 to-blue-500",
     details: [
-      "Team training sessions",
-      "Admin panel walkthrough",
-      "Best practices guide",
-      "Support documentation"
+      "Function checks",
+      "Content review",
+      "Performance check",
+      "Production launch"
     ]
   },
   {
     id: 6,
-    title: "Monitoring & Optimization",
-    description: "Continuous monitoring and performance improvements",
+    title: "Monitor & Improve",
+    description: "We track results and make updates.",
     icon: BarChart3,
     color: "from-teal-500 to-cyan-500",
     details: [
-      "Performance analytics",
-      "User behavior insights",
-      "Continuous improvements",
-      "Regular health checks"
+      "Usage reports",
+      "Content tweaks",
+      "Bug fixes",
+      "Optional support"
     ]
   }
 ];
@@ -199,7 +199,7 @@ export function HowItWorks({ className }: HowItWorksProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Our proven 6-step process ensures your chatbot is perfectly tailored to your business needs and delivers exceptional results.
+            Our simple 6-step process ensures your chatbot is built for your unqiue business needs and delivers great results.
           </motion.p>
         </MotionContainer>
 
@@ -258,7 +258,7 @@ export function HowItWorks({ className }: HowItWorksProps) {
             <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4 text-primary" />
-                <span>2-4 weeks delivery</span>
+                <span>1-2 weeks delivery</span>
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4 text-primary" />

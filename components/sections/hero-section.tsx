@@ -157,12 +157,12 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              We craft{" "}
+              We build{" "}
               <motion.span 
                 className="text-primary font-semibold relative inline-block"
                 whileHover={{ scale: 1.05 }}
               >
-                intelligent AI solutions
+                smart AI solutions
                 <motion.div 
                   className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
                   initial={{ scaleX: 0 }}
