@@ -100,6 +100,7 @@ export function Reviews({ className }: ReviewsProps) {
           </motion.div>
         </MotionContainer>
 
+        {/* Row 1: soft card (light) / subtle glass (dark) */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -110,11 +111,18 @@ export function Reviews({ className }: ReviewsProps) {
             items={testimonials.slice(0, 4)}
             direction="right"
             speed="slow"
-            pauseOnHover={true}
+            pauseOnHover
             className="mb-4"
+            cardClassName="
+              /* Light */
+              light:bg-card light:border light:border-border light:shadow-sm
+              /* Dark */
+              dark:bg-white/5 dark:backdrop-blur-md dark:border dark:border-border/30
+            "
           />
         </motion.div>
 
+        {/* Row 2: brighter light card / same dark treatment */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -125,7 +133,13 @@ export function Reviews({ className }: ReviewsProps) {
             items={testimonials.slice(4, 8)}
             direction="left"
             speed="slow"
-            pauseOnHover={true}
+            pauseOnHover
+            cardClassName="
+              /* Light */
+              light:bg-white light:border light:border-border light:shadow-md
+              /* Dark */
+              dark:bg-muted/20 dark:border dark:border-border/30
+            "
           />
         </motion.div>
 
@@ -144,7 +158,6 @@ export function Reviews({ className }: ReviewsProps) {
                 transition={{ delay: index * 0.1, type: "spring", damping: 20, stiffness: 300 }}
                 className="text-center group"
               >
-                {/* Icon: centered and same color as primary text */}
                 <motion.div
                   className="text-4xl mb-2 text-primary mx-auto flex items-center justify-center"
                   whileHover={{ scale: 1.2, rotate: 10 }}
@@ -153,7 +166,6 @@ export function Reviews({ className }: ReviewsProps) {
                   <stat.icon className="w-10 h-10 text-inherit" aria-hidden="true" />
                 </motion.div>
 
-                {/* Number: shares primary color with the icon */}
                 <motion.div
                   className="text-3xl md:text-4xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform"
                   whileInView={{ scale: [0.8, 1.1, 1] }}
@@ -162,7 +174,6 @@ export function Reviews({ className }: ReviewsProps) {
                   {stat.number}
                 </motion.div>
 
-                {/* Label */}
                 <div className="text-muted-foreground text-sm font-medium">{stat.label}</div>
               </motion.div>
             ))}

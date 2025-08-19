@@ -1,7 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Star, Zap, Crown, Rocket, ShieldCheck, Headphones } from "lucide-react";
+import {
+  Check,
+  Star,
+  Zap,
+  Crown,
+  Rocket,
+  ShieldCheck,
+  Headphones,
+} from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { MotionContainer } from "@/components/animations/motion-container";
 import { Button } from "@/components/ui/button";
@@ -21,7 +29,7 @@ interface PricingTier {
 
 const pricingTiers: PricingTier[] = [
   {
-    name: "Starter",
+    name: "Chatbot Only",
     price: "₱ 3,000",
     period: "one-time",
     subscriptionPrice: "+ ₱ 1,500/month maintenance subscription",
@@ -39,7 +47,7 @@ const pricingTiers: PricingTier[] = [
     ],
   },
   {
-    name: "Professional",
+    name: "Chatbot + Website",
     price: "₱ 5,000",
     subscriptionPrice: "+ ₱ 1,500/month maintenance subscription",
     period: "one-time",
@@ -85,6 +93,38 @@ interface PricingCardProps {
   onContactClick: () => void;
 }
 
+function buttonClassesForTier(tier: PricingTier) {
+  const base =
+    "w-full py-3 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring/50";
+
+  if (tier.highlighted) {
+    // "Most Popular"
+    return [
+      base,
+      "dark:bg-gradient-to-r dark:from-primary dark:to-accent dark:text-white dark:hover:from-primary/90 dark:hover:to-accent/90",
+      "light:bg-gradient-to-r light:from-primary light:to-accent light:text-primary-foreground light:hover:from-primary/90 light:hover:to-accent/90",
+    ].join(" ");
+  }
+
+  const isContact = /contact/i.test(tier.buttonText);
+
+  if (isContact) {
+    // "Contact Sales"
+    return [
+      base,
+      "light:bg-transparent light:text-primary light:border light:border-primary/60 light:hover:bg-primary/10",
+      "dark:bg-transparent dark:text-accent dark:border dark:border-accent/40 dark:hover:bg-accent/10",
+    ].join(" ");
+  }
+
+  // Default "Get Started"
+  return [
+    base,
+    "dark:bg-muted dark:hover:bg-muted/80 dark:text-white",
+    "light:bg-card light:text-foreground light:border light:border-border light:hover:bg-muted",
+  ].join(" ");
+}
+
 function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
   const IconComponent = tier.icon;
 
@@ -106,10 +146,11 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
         )}
 
         <div className="text-center mb-6">
-          {/* Icon inherits color from wrapper; centered */}
           <motion.div
             className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
-              tier.highlighted ? "text-primary bg-gradient-to-r from-primary/20 to-accent/20" : "text-foreground bg-muted/20"
+              tier.highlighted
+                ? "text-primary bg-gradient-to-r from-primary/20 to-accent/20"
+                : "text-foreground bg-muted/20"
             }`}
             whileHover={{ scale: 1.1, rotate: 5 }}
             transition={{ duration: 0.3 }}
@@ -128,7 +169,9 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
               )}
             </div>
             {tier.subscriptionPrice && (
-              <div className="text-sm text-muted-foreground mt-2">{tier.subscriptionPrice}</div>
+              <div className="text-sm text-muted-foreground mt-2">
+                {tier.subscriptionPrice}
+              </div>
             )}
           </div>
         </div>
@@ -142,8 +185,10 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 + featureIndex * 0.05 }}
             >
-              {/* Check icon matches primary color; aligned with text */}
-              <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
+              <Check
+                className="h-5 w-5 text-primary flex-shrink-0 mt-0.5"
+                aria-hidden="true"
+              />
               <span
                 className={`text-sm ${
                   feature.startsWith("**") && feature.endsWith("**")
@@ -159,11 +204,9 @@ function PricingCard({ tier, index, onContactClick }: PricingCardProps) {
 
         <Button
           onClick={onContactClick}
-          className={`w-full py-3 ${
-            tier.highlighted
-              ? "bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
-              : "bg-muted hover:bg-muted/80"
-          } text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105`}
+          className={buttonClassesForTier(tier)}
+          type="button"
+          aria-label={tier.buttonText}
         >
           {tier.buttonText}
         </Button>
@@ -196,13 +239,19 @@ export function Pricing({ onContactClick, className }: PricingProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Choose the perfect plan for your business. All plans include our core AI technology and dedicated support.
+            Choose the perfect plan for your business. All plans include our core
+            AI technology and dedicated support.
           </motion.p>
         </MotionContainer>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
           {pricingTiers.map((tier, index) => (
-            <PricingCard key={tier.name} tier={tier} index={index} onContactClick={onContactClick} />
+            <PricingCard
+              key={tier.name}
+              tier={tier}
+              index={index}
+              onContactClick={onContactClick}
+            />
           ))}
         </div>
 
@@ -214,12 +263,26 @@ export function Pricing({ onContactClick, className }: PricingProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <h3 className="text-2xl font-bold text-foreground mb-4">All Plans Include</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              All Plans Include
+            </h3>
             <div className="grid md:grid-cols-3 gap-6 text-center">
               {[
-                { icon: ShieldCheck, title: "Security & Compliance", desc: "Enterprise-grade security" },
-                { icon: Rocket, title: "Fast Deployment", desc: "1–2 weeks delivery" },
-                { icon: Headphones, title: "Ongoing Support", desc: "Dedicated support team" },
+                {
+                  icon: ShieldCheck,
+                  title: "Security & Compliance",
+                  desc: "Enterprise-grade security",
+                },
+                {
+                  icon: Rocket,
+                  title: "Fast Deployment",
+                  desc: "1–2 weeks delivery",
+                },
+                {
+                  icon: Headphones,
+                  title: "Ongoing Support",
+                  desc: "Dedicated support team",
+                },
               ].map((item, index) => {
                 const Icon = item.icon;
                 return (
@@ -230,8 +293,10 @@ export function Pricing({ onContactClick, className }: PricingProps) {
                     transition={{ delay: 0.8 + index * 0.1 }}
                     className="text-foreground"
                   >
-                    {/* Icon centered and same color as text */}
-                    <Icon className="w-8 h-8 text-inherit mx-auto mb-2" aria-hidden="true" />
+                    <Icon
+                      className="w-8 h-8 text-inherit mx-auto mb-2"
+                      aria-hidden="true"
+                    />
                     <h4 className="font-semibold mb-1">{item.title}</h4>
                     <p className="text-muted-foreground text-sm">{item.desc}</p>
                   </motion.div>

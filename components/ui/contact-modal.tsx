@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { 
+import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -10,13 +10,13 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { 
-  Mail, 
-  User, 
-  Building, 
-  MessageSquare, 
+import {
+  Mail,
+  User,
+  Building,
+  MessageSquare,
   Send,
-  CheckCircle
+  CheckCircle,
 } from "lucide-react";
 
 interface ContactModalProps {
@@ -29,7 +29,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     name: "",
     email: "",
     company: "",
-    message: ""
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -37,25 +37,40 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after 2 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || "Failed to send message");
+      }
+
+      setIsSubmitted(true);
       setFormData({ name: "", email: "", company: "", message: "" });
-      onClose();
-    }, 2000);
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        onClose();
+      }, 2000);
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong sending your message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -66,7 +81,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           <>
             <DialogHeader className="text-center space-y-4">
               <DialogTitle asChild>
-                <motion.h2 
+                <motion.h2
                   className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -76,13 +91,14 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 </motion.h2>
               </DialogTitle>
               <DialogDescription asChild>
-                <motion.p 
+                <motion.p
                   className="text-muted-foreground text-lg"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  Tell us about your project and we&apos;ll get back to you within 24 hours
+                  Tell us about your project and we&apos;ll get back to you within
+                  24 hours
                 </motion.p>
               </DialogDescription>
             </DialogHeader>
@@ -182,13 +198,13 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-3 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100"
+                  className="px-8 py-3 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100"
                 >
                   {isSubmitting ? (
                     <motion.div
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="h-4 w-4 border-2 border-white border-t-transparent rounded-full"
+                      className="h-4 w-4 border-2 border-current border-t-transparent rounded-full"
                     />
                   ) : (
                     <>

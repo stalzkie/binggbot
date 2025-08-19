@@ -2,6 +2,7 @@
 
 import { Home, Settings, Star, Phone, Rocket } from "lucide-react";
 import { FloatingNav } from "@/components/ui/floating-navbar";
+import ThemeToggle from "@/components/ui/theme-toggle";
 
 const navigationItems = [
   { name: "Home", link: "#home", icon: <Home className="h-4 w-4" /> },
@@ -14,9 +15,14 @@ const navigationItems = [
 
 export function Header() {
   return (
-    <FloatingNav 
-      navItems={navigationItems} 
-      className="backdrop-blur-lg bg-background/80 border border-border/50 shadow-lg"
-    />
+    <>
+      <FloatingNav
+        navItems={navigationItems}
+        className="backdrop-blur-lg bg-background/80 border border-border/50 shadow-lg"
+      />
+      <div className="fixed right-4 top-3 z-[60] pointer-events-auto">
+        <ThemeToggle />
+      </div>
+    </>
   );
 }

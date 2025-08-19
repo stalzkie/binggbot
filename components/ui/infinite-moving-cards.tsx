@@ -1,7 +1,14 @@
 "use client";
 
+import * as React from "react";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+
+type ReviewItem = {
+  quote: string;
+  name: string;
+  title: string;
+  image?: string;
+};
 
 export const InfiniteMovingCards = ({
   items,
@@ -9,36 +16,38 @@ export const InfiniteMovingCards = ({
   speed = "fast",
   pauseOnHover = true,
   className,
+  cardClassName, // 👈 NEW: allows parent to control card styling
 }: {
-  items: {
-    quote: string;
-    name: string;
-    title: string;
-    image?: string;
-  }[];
+  items: ReviewItem[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
   className?: string;
+  cardClassName?: string; // 👈 NEW
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
-  const [start, setStart] = useState(false);
+  const [start, setStart] = React.useState(false);
 
-  const animationDuration = useMemo(() => {
+  const animationDuration = React.useMemo(() => {
     switch (speed) {
-      case "fast": return "20s";
-      case "normal": return "40s";
-      case "slow": return "80s";
-      default: return "40s";
+      case "fast":
+        return "20s";
+      case "normal":
+        return "40s";
+      case "slow":
+        return "80s";
+      default:
+        return "40s";
     }
   }, [speed]);
 
-  const animationDirection = useMemo(() => {
-    return direction === "left" ? "forwards" : "reverse";
-  }, [direction]);
+  const animationDirection = React.useMemo(
+    () => (direction === "left" ? "forwards" : "reverse"),
+    [direction]
+  );
 
-  const setupAnimation = useCallback(() => {
+  const setupAnimation = React.useCallback(() => {
     if (!containerRef.current || !scrollerRef.current) return;
 
     const container = containerRef.current;
@@ -49,36 +58,37 @@ export const InfiniteMovingCards = ({
 
     if (scroller.children.length === items.length) {
       const scrollerContent = Array.from(scroller.children);
-      
       const fragment = document.createDocumentFragment();
-      
       scrollerContent.forEach((item) => {
         const duplicatedItem = item.cloneNode(true);
         fragment.appendChild(duplicatedItem);
       });
-      
       scroller.appendChild(fragment);
     }
 
     setStart(true);
   }, [animationDuration, animationDirection, items.length]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const rafId = requestAnimationFrame(() => {
       setupAnimation();
     });
-
     return () => cancelAnimationFrame(rafId);
   }, [setupAnimation]);
 
-  const renderedItems = useMemo(() => {
+  const renderedItems = React.useMemo(() => {
     return items.map((item, index) => (
       <li
-        className="w-[300px] sm:w-[350px] md:w-[400px] lg:w-[450px] max-w-full relative rounded-2xl border border-b-0 flex-shrink-0 border-slate-700/50 px-6 sm:px-8 py-6 glass-card will-change-transform"
-        style={{
-          background: "linear-gradient(180deg, rgba(15, 30, 60, 0.15), rgba(10, 20, 40, 0.25))",
-        }}
         key={`${item.name}-${index}`}
+        className={cn(
+          // layout & shape
+          "w-[300px] sm:w-[350px] md:w-[400px] lg:w-[450px] max-w-full relative rounded-2xl border flex-shrink-0 px-6 sm:px-8 py-6",
+          // THEME DEFAULTS (can be overridden via cardClassName)
+          "light:bg-card light:border-border light:shadow-sm",
+          "dark:bg-muted/20 dark:border-border/30",
+          // optional glass look can still be added from parent
+          cardClassName
+        )}
       >
         <blockquote>
           <div
@@ -91,7 +101,10 @@ export const InfiniteMovingCards = ({
           <div className="relative z-20 mt-6 flex flex-row items-center">
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mr-3">
               <span className="text-xs sm:text-sm font-semibold text-primary">
-                {item.name.split(" ").map(n => n[0]).join("")}
+                {item.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </span>
             </div>
             <span className="flex flex-col gap-1 min-w-0">
@@ -106,7 +119,8 @@ export const InfiniteMovingCards = ({
         </blockquote>
       </li>
     ));
-  }, [items]);
+  }, [items, cardClassName]);
+
   return (
     <div
       ref={containerRef}
@@ -122,9 +136,7 @@ export const InfiniteMovingCards = ({
           start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
-        style={{
-          transform: "translateZ(0)", 
-        }}
+        style={{ transform: "translateZ(0)" }}
       >
         {renderedItems}
       </ul>
