@@ -7,8 +7,11 @@ import {
   IconSend,
   IconX,
   IconSparkles,
+  IconSun,
+  IconMoon,
 } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 
 interface ChatMessage {
   sender: "user" | "bot";
@@ -19,7 +22,9 @@ function ChatbotButton({ onClick }: { onClick: () => void }) {
   return (
     <motion.button
       onClick={onClick}
-      className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full shadow-2xl flex items-center justify-center border-2 border-primary/30 hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+      className="w-16 h-16 rounded-full shadow-2xl flex items-center justify-center border-2 transition-transform duration-200 focus:outline-none hover:scale-105
+                 bg-gradient-to-br from-blue-600 to-emerald-500 border-blue-500/30
+                 dark:from-blue-500 dark:to-emerald-400 dark:border-blue-400/30"
       aria-label="Open Chatbot"
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
@@ -33,6 +38,26 @@ function ChatbotButton({ onClick }: { onClick: () => void }) {
         className="w-9 h-9 object-contain drop-shadow-md"
       />
     </motion.button>
+  );
+}
+
+function ThemeToggleSmall() {
+  const { theme, setTheme } = useTheme();
+  const toggle = () => setTheme(theme === "dark" ? "light" : "dark");
+
+  return (
+    <button
+      onClick={toggle}
+      className="p-1.5 rounded-md border text-sm transition-colors
+                 border-neutral-200 hover:bg-neutral-100
+                 dark:border-neutral-700 dark:hover:bg-neutral-800"
+      aria-label="Toggle theme"
+      title="Toggle theme"
+    >
+      <span className="sr-only">Toggle theme</span>
+      <IconSun className="w-4 h-4 block dark:hidden" />
+      <IconMoon className="w-4 h-4 hidden dark:block" />
+    </button>
   );
 }
 
@@ -78,10 +103,16 @@ function ChatbotWindow({
       transition={{ type: "spring", duration: 0.4 }}
     >
       <div
-        className="relative w-80 h-96 bg-gradient-to-br from-background/95 to-secondary/80 shadow-2xl rounded-2xl flex flex-col border border-primary/20 backdrop-blur-xl resize overflow-hidden min-w-[320px] min-h-[300px] max-w-[90vw] max-h-[80vh]"
+        className="relative w-80 h-96 rounded-2xl flex flex-col backdrop-blur-xl resize overflow-hidden min-w-[320px] min-h-[300px] max-w-[90vw] max-h-[80vh]
+                   border shadow-2xl
+                   bg-white/90 border-neutral-200
+                   dark:bg-neutral-900/90 dark:border-neutral-700"
         style={{ resize: "both" }}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b border-primary/10 bg-gradient-to-r from-primary/10 to-accent/10 rounded-t-2xl cursor-move">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b rounded-t-2xl cursor-move
+                        border-neutral-200 bg-neutral-50/60
+                        dark:border-neutral-700 dark:bg-neutral-800/60">
           <div className="flex items-center space-x-2">
             <Image
               src="/alternative-logo.png"
@@ -90,19 +121,28 @@ function ChatbotWindow({
               height={24}
               className="w-6 h-6 object-contain"
             />
-            <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="font-bold text-lg
+                             bg-clip-text text-transparent
+                             bg-gradient-to-r from-blue-600 to-emerald-500
+                             dark:from-blue-400 dark:to-emerald-400">
               BinggBot
             </span>
           </div>
-          <button
-            onClick={onClose}
-            className="text-muted-foreground hover:text-primary text-xl font-bold p-1 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
-            aria-label="Close Chatbot"
-          >
-            <IconX className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggleSmall />
+            <button
+              onClick={onClose}
+              className="p-1 rounded-full transition-colors
+                         text-neutral-600 hover:bg-neutral-100
+                         dark:text-neutral-300 dark:hover:bg-neutral-800"
+              aria-label="Close Chatbot"
+            >
+              <IconX className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
+        {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
           <AnimatePresence>
             {messages.length === 0 ? (
@@ -111,29 +151,29 @@ function ChatbotWindow({
                 animate={{ opacity: 1, y: 0 }}
                 className="flex-1 flex flex-col items-center justify-center text-center px-4"
               >
-                <IconSparkles className="w-12 h-12 text-primary/50 mb-4" />
-                <div className="text-foreground font-semibold mb-2">
+                <IconSparkles className="w-12 h-12 text-blue-600/60 dark:text-blue-400/60 mb-4" />
+                <div className="font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
                   Hello there!
                 </div>
-                <div className="text-muted-foreground text-sm">
+                <div className="text-sm text-neutral-600 dark:text-neutral-400">
                   I&apos;m BinggBot. How can I help you today?
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                  {[
-                    "What are your features?",
-                    "How do I get started?",
-                    "Who created you?",
-                  ].map((suggestion) => (
-                    <motion.button
-                      key={suggestion}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className="text-xs px-3 py-1.5 bg-background/50 border border-primary/20 text-foreground/80 rounded-full hover:bg-primary/20 transition-colors duration-200"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {suggestion}
-                    </motion.button>
-                  ))}
+                  {["What are your features?", "How do I get started?", "Who created you?"].map(
+                    (suggestion) => (
+                      <motion.button
+                        key={suggestion}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className="text-xs px-3 py-1.5 rounded-full border transition-colors
+                                   bg-white/70 border-neutral-200 text-neutral-700 hover:bg-neutral-100
+                                   dark:bg-neutral-900/70 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {suggestion}
+                      </motion.button>
+                    )
+                  )}
                 </div>
               </motion.div>
             ) : (
@@ -148,27 +188,28 @@ function ChatbotWindow({
                   transition={{ duration: 0.3 }}
                 >
                   {msg.sender === "bot" && (
-                    <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
+                    <div
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
+                                 bg-gradient-to-r from-blue-600 to-emerald-500
+                                 dark:from-blue-500 dark:to-emerald-400"
+                    >
                       <IconRobot className="w-4 h-4 text-white" />
                     </div>
                   )}
-                  <div
-                    className={`max-w-[80%] ${
-                      msg.sender === "user" ? "order-1" : ""
-                    }`}
-                  >
+                  <div className={`max-w-[80%] ${msg.sender === "user" ? "order-1" : ""}`}>
                     <div
-                      className={`${
+                      className={`px-3 py-2 text-sm rounded-2xl ${
                         msg.sender === "user"
-                          ? "bg-primary/10 text-primary rounded-2xl rounded-tr-md"
-                          : "bg-accent/10 text-accent rounded-2xl rounded-tl-md"
-                      } px-3 py-2 text-sm`}
+                          ? "rounded-tr-md bg-blue-600/10 text-blue-700 dark:bg-blue-400/10 dark:text-blue-300"
+                          : "rounded-tl-md bg-emerald-600/10 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-300"
+                      }`}
                     >
                       <p>{msg.text}</p>
                     </div>
                   </div>
                   {msg.sender === "user" && (
-                    <div className="flex-shrink-0 w-8 h-8 bg-muted-foreground rounded-full flex items-center justify-center order-2">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
+                                    bg-neutral-400 dark:bg-neutral-600 order-2">
                       <IconUser className="w-4 h-4 text-white" />
                     </div>
                   )}
@@ -181,18 +222,24 @@ function ChatbotWindow({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
+                <div
+                  className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
+                             bg-gradient-to-r from-blue-600 to-emerald-500
+                             dark:from-blue-500 dark:to-emerald-400"
+                >
                   <IconRobot className="w-4 h-4 text-white" />
                 </div>
-                <div className="bg-accent/10 text-accent px-3 py-2 rounded-2xl rounded-tl-md">
+                <div className="px-3 py-2 rounded-2xl rounded-tl-md
+                                bg-emerald-600/10 text-emerald-700
+                                dark:bg-emerald-400/10 dark:text-emerald-300">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-accent/80 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 rounded-full animate-bounce bg-emerald-500/80 dark:bg-emerald-300/80" />
                     <div
-                      className="w-2 h-2 bg-accent/60 rounded-full animate-bounce"
+                      className="w-2 h-2 rounded-full animate-bounce bg-emerald-500/60 dark:bg-emerald-300/60"
                       style={{ animationDelay: "0.1s" }}
                     />
                     <div
-                      className="w-2 h-2 bg-accent/40 rounded-full animate-bounce"
+                      className="w-2 h-2 rounded-full animate-bounce bg-emerald-500/40 dark:bg-emerald-300/40"
                       style={{ animationDelay: "0.2s" }}
                     />
                   </div>
@@ -203,18 +250,29 @@ function ChatbotWindow({
           <div ref={messageEndRef} />
         </div>
 
-        <div className="p-3 border-t border-primary/10 bg-background/80 rounded-b-2xl flex gap-2">
+        {/* Input */}
+        <div className="p-3 border-t rounded-b-2xl flex gap-2
+                        border-neutral-200 bg-white/80
+                        dark:border-neutral-700 dark:bg-neutral-900/80">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
-            className="flex-1 border border-primary/20 px-3 py-2 rounded-xl text-sm text-foreground bg-background placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+            className="flex-1 px-3 py-2 rounded-xl text-sm outline-none transition-colors
+                       border bg-white placeholder:text-neutral-400 text-neutral-900
+                       focus:border-blue-500
+                       border-neutral-200
+                       dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:border-neutral-700 dark:focus:border-blue-400"
             placeholder="Type your message..."
           />
           <button
             onClick={onSend}
-            className="px-4 py-2 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-semibold shadow hover:scale-105 transition-transform"
+            className="px-4 py-2 rounded-xl font-semibold shadow transition-transform disabled:opacity-60 disabled:cursor-not-allowed
+                       bg-gradient-to-r from-blue-600 to-emerald-500 text-white hover:scale-105
+                       dark:from-blue-500 dark:to-emerald-400"
             disabled={isLoading || !input.trim()}
+            aria-label="Send"
+            title="Send"
           >
             <IconSend className="w-5 h-5" />
           </button>
@@ -246,7 +304,7 @@ export default function ChatBot() {
       const res = await fetch("/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: userMessage.text }),
       });
       if (!res.ok) {
         setMessages((prev) => [
